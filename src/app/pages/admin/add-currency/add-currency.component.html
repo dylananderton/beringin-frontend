@@ -1,0 +1,17 @@
+<h2 class="text-2xl font-bold text-center my-6">Add Currency</h2>
+
+<form (ngSubmit)="submitForm()" #form="ngForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md space-y-6">
+
+    <div class="space-y-4">
+        <div>
+            <label for="currency_code" class="block text-sm font-medium mb-1">Currency Code</label>
+            <input type="text" name="currency_code" id="currency_code" [(ngModel)]="currency.code" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            <label for="currency_name" class="block text-sm font-medium mb-1">Currency Name</label>
+            <input type="text" name="currency_name" id="currency_name" [(ngModel)]="currency.name" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors">Add Currency</button>
+</form>

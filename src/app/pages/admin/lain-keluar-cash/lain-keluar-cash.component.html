@@ -1,0 +1,23 @@
+<div class="max-w-5xl mx-auto mt-8">
+    <div class="flex items-center justify-between mb-6">
+        <div class="text-2xl font-bold">Lain Keluar Cash</div>
+        <a routerLink="add" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors shadow">Add Lain Keluar Cash</a>
+    </div>
+    <div class="bg-white rounded-lg shadow-md overflow-x-auto">
+        <table class="w-full text-center border border-blue-400">
+            <tr class="bg-blue-50">
+              <th class="border border-blue-400 py-2">Date</th>
+              <th class="border border-blue-400 py-2">Rupiah</th>
+              <th class="border border-blue-400 py-2">Description</th>
+            </tr>
+            <tr *ngFor="let lainKeluar of dataSource.filteredData" class="hover:bg-blue-50 transition-colors">
+              <td class="border border-blue-400 py-2">{{lainKeluar.date | date:'dd/MM/yyyy'}}</td>
+              <td class="border border-blue-400 py-2">{{lainKeluar.rupiah | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{lainKeluar.description}}</td>
+            </tr>
+        </table>
+        <mat-paginator [length]="total" [pageSize]="limit" [pageIndex]="page - 1"
+         showFirstLastButtons (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</div>

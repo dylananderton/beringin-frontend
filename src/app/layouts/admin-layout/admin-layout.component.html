@@ -1,0 +1,42 @@
+<div class="w-full bg-gray-200 py-6 px-4 shadow">
+	<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+		<div class="text-lg font-semibold text-gray-700 flex items-center gap-4">
+			<span class="flex flex-col items-center gap-3">
+				<span>{{ time.toDateString() }}</span>
+				<span>{{ time.toLocaleTimeString() }}</span>
+			</span>
+		</div>
+		<nav class="flex flex-wrap justify-center gap-4 bg-amber-50 rounded-lg shadow px-4 py-2">
+			<a routerLink="/admin" routerLinkActive="bg-green-800 text-white" [routerLinkActiveOptions]="{ exact: true }"
+				class="px-6 py-2 font-bold text-lg hover:bg-green-800 hover:text-white rounded-lg transition-colors duration-200">
+				Home
+			</a>
+			<a routerLink="/admin/currencies" routerLinkActive="bg-green-800 text-white"
+				class="px-6 py-2 font-bold text-lg hover:bg-green-800 hover:text-white rounded-lg transition-colors duration-200">
+				Currencies
+			</a>
+			<a routerLink="/admin/stock-details" routerLinkActive="bg-green-800 text-white"
+				class="px-6 py-2 font-bold text-lg hover:bg-green-800 hover:text-white rounded-lg transition-colors duration-200">
+				Stock Details
+			</a>
+			<a routerLink="/admin/transactions" routerLinkActive="bg-green-800 text-white"
+				class="px-6 py-2 font-bold text-lg hover:bg-green-800 hover:text-white rounded-lg transition-colors duration-200">
+				Transactions
+			</a>
+			<a routerLink="/admin/lain-keluar" routerLinkActive="bg-green-800 text-white"
+				class="px-6 py-2 font-bold text-lg hover:bg-green-800 hover:text-white rounded-lg transition-colors duration-200">
+				Lain Keluar Cash
+			</a>
+			<a routerLink="/admin/live-currency" routerLinkActive="bg-green-800 text-white"
+				class="px-6 py-2 font-bold text-lg hover:bg-green-800 hover:text-white rounded-lg transition-colors duration-200">
+				Live Currency
+			</a>
+		</nav>
+		<button (click)="logout()" class="ml-auto bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow hover:cursor-pointer">
+			Logout
+		</button>
+	</div>
+</div>
+
+<router-outlet></router-outlet>
+

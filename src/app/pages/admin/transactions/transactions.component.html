@@ -1,0 +1,53 @@
+<div class="max-w-5xl mx-auto mt-8">
+    <div class="flex items-center justify-between mb-6">
+        <div class="text-2xl font-bold">All Transactions</div>
+        <a routerLink="add" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors shadow">Add New Transaction</a>
+    </div>
+    <div class="bg-white rounded-lg shadow-md overflow-x-auto">
+        <table class="w-full text-center border border-blue-400">
+            <tr class="bg-blue-100">
+              <th colspan="1" class="border border-blue-400 py-2">Transaction</th>
+              <th colspan="1" class="border border-blue-400 py-2">Currency</th>
+              <th colspan="3" class="border border-blue-400 py-2">Buy</th>
+              <th colspan="4" class="border border-blue-400 py-2">Sales</th>
+              <th colspan="2" class="border border-blue-400 py-2">Nett Change</th>
+            </tr>
+            <tr class="bg-blue-50">
+              <th class="border border-blue-400 py-2">Date</th>
+              <th class="border border-blue-400 py-2">Code</th>
+              <th class="border border-blue-400 py-2">Amount</th>
+              <th class="border border-blue-400 py-2">Buy Price</th>
+              <th class="border border-blue-400 py-2">Notes</th>
+              <th class="border border-blue-400 py-2">Amount</th>
+              <th class="border border-blue-400 py-2">Sales Price</th>
+              <th class="border border-blue-400 py-2">Used Batch</th>
+              <th class="border border-blue-400 py-2">Notes</th>
+              <th class="border border-blue-400 py-2">Nett Change</th>
+              <th class="border border-blue-400 py-2">Profit / Loss</th>
+            </tr>
+            <tr *ngFor="let transaction of dataSource.filteredData" class="hover:bg-blue-50 transition-colors">
+              <td class="border border-blue-400 py-2">{{transaction.date | date:'dd/MM/yyyy'}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.currency_code}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.buyAmount | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.buyRate | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.buyNote}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.sellAmount | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.sellRate | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.usedBatch}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.sellNote}}</td>
+              <td class="border border-blue-400 py-2">{{transaction.nettChange | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">
+                <ng-container *ngIf="isNumber(transaction.profit); else notNumber">
+                    {{ transaction.profit | number:'1.0-0' }}
+                </ng-container>
+                <ng-template #notNumber>
+                    {{ transaction.profit }}
+                </ng-template>
+              </td>
+            </tr>
+        </table>
+        <mat-paginator [length]="total" [pageSize]="limit" [pageIndex]="page - 1"
+         showFirstLastButtons (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+<div class="max-w-7xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-6 text-center">Currency Rates</h1>
+
+    <div class="flex flex-col md:flex-row md:items-start md:gap-6">
+        <div class="w-full md:w-[70%]">
+            <table class="w-full border-collapse border border-gray-300 shadow text-sm">
+                <thead class="bg-green-800 text-white">
+                    <tr>
+                        <th class="px-3 py-2 border">Currency</th>
+                        <th class="px-3 py-2 border">Buy</th>
+                        <th class="px-3 py-2 border">Sell</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="!isEditing; else editRows">
+                        <tr *ngFor="let p of currencyPrices" class="hover:bg-gray-100">
+                            <td class="px-3 py-2 border">{{ p.code }}</td>
+                            <td class="px-3 py-2 border">{{ p.buy | number }}</td>
+                            <td class="px-3 py-2 border">{{ p.sell | number }}</td>
+                        </tr>
+                    </ng-container>
+                    <ng-template #editRows>
+                        <tr *ngFor="let p of editedPrices; let i = index" class="hover:bg-gray-50">
+                            <td class="px-3 py-2 border">{{ p.code }}</td>
+                            <td class="px-3 py-2 border">
+                                <input class="w-full border border-gray-300 rounded px-2 py-1 text-right" type="number" [(ngModel)]="p.buy" />
+                            </td>
+                            <td class="px-3 py-2 border">
+                                <input class="w-full border border-gray-300 rounded px-2 py-1 text-right" type="number" [(ngModel)]="p.sell" />
+                            </td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="w-full md:w-[30%] mt-6 md:mt-0">
+            <div>
+                Last update:
+                <div class="mat-4">
+                    {{date}}
+                </div>
+            </div>
+
+            <ng-container *ngIf="!isEditing; else editActions">
+                <button (click)="onEditClick()" class="w-full bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded mt-10">Edit table</button>
+            </ng-container>
+            <div>
+                
+            </div>
+            <ng-template #editActions>
+                <div class="flex gap-3 mt-10">
+                    <button (click)="onCancelEdit()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium py-2 px-4 rounded">Cancel</button>
+                    <button (click)="onSaveEdit()" class="flex-1 bg-green-700 hover:bg-green-800 text-white font-medium py-2 px-4 rounded">Save</button>
+                </div>
+            </ng-template>
+
+            <div 
+                class="border-2 border-dashed border-gray-300 rounded p-6 text-center text-sm text-gray-600 hover:border-gray-400 transition-colors mt-10"
+                (dragover)="$event.preventDefault()"
+                (drop)="onFileDropped($event)"
+            >
+                <ng-container *ngIf="!uploadedFileName; else fileInfo">
+                    <p class="mb-3">Drag and drop .xlsx file here</p>
+                    <p class="mb-3">or</p>
+                    <label class="inline-block cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded">
+                        Choose file
+                        <input type="file" accept=".xlsx" class="hidden" (change)="onFileSelected($event)" />
+                    </label>
+                </ng-container>
+                <ng-template #fileInfo>
+                    <div class="items-center justify-center gap-2 text-gray-800">
+                        <span class="font-medium">Selected: </span>
+                        <span>{{ uploadedFileName }}</span>
+                        <div class="flex justify-center gap-6">
+                            <button alt="Clear file" class="inline-block cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded mt-4 bg-red-400"
+                             (click)="clearUploadedFile()">Clear File</button>
+                             <button alt="Save file" class="inline-block cursor-pointer bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-4 rounded mt-4 bg-green-500"
+                             (click)="saveUploadedFile()">Save File</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

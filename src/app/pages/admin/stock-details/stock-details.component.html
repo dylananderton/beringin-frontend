@@ -1,0 +1,38 @@
+<div class="max-w-5xl mx-auto mt-8">
+    <div class="flex items-center justify-between mb-6">
+        <div class="text-2xl font-bold text-gray-800">Currency Batches</div>
+    </div>
+
+    <div class="mb-6">
+      <label for="currency" class="block text-sm font-medium mb-2">Currency</label>
+      <select name="currencyCode" id="currency" [(ngModel)]="selectedCurrencyCode" (ngModelChange)="getSpecificCurrencyBatches($event)" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white">
+          <option *ngFor="let currency of currencies" [value]="currency?.code">
+              {{currency.code}} - {{currency.name}}
+          </option>
+      </select>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md overflow-x-auto p-4">
+        <table class="w-full text-center border border-blue-400">
+            <tr class="bg-blue-100 text-base font-semibold">
+              <th class="border border-blue-400 py-2">Currency Code</th>
+              <th class="border border-blue-400 py-2">Batch Code</th>
+              <th class="border border-blue-400 py-2">Amount Remaining</th>
+              <th class="border border-blue-400 py-2">Original Amount</th>
+              <th class="border border-blue-400 py-2">Buy Rate</th>
+              <th class="border border-blue-400 py-2">Buy Date</th>
+            </tr>
+            <tr *ngFor="let batch of dataSource.filteredData" class="hover:bg-blue-50 transition-colors">
+              <td class="border border-blue-400 py-2">{{batch.currency_code}}</td>
+              <td class="border border-blue-400 py-2">{{batch.batch_code}}</td>
+              <td class="border border-blue-400 py-2 font-bold text-green-700">{{batch.amount_remaining | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{batch.original_amount | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{batch.buy_rate | number:'1.0-0'}}</td>
+              <td class="border border-blue-400 py-2">{{batch.buy_date | date:'dd/MM/yyyy'}}</td>
+            </tr>
+        </table>
+        <mat-paginator [length]="total" [pageSize]="limit" [pageIndex]="page - 1"
+         showFirstLastButtons (page)="onPageChange($event)">
+        </mat-paginator>
+    </div>
+</div>

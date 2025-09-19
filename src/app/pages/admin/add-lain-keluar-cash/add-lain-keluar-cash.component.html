@@ -1,0 +1,28 @@
+<h2 class="text-2xl font-bold text-center my-6">Add Lain Keluar Cash</h2>
+
+<form (ngSubmit)="submitForm()" #form="ngForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md space-y-6">
+    <div>
+        <label for="date" class="block text-sm font-medium mb-1">Date</label>
+        <input type="date" name="date" id="date" [(ngModel)]="lainKeluar.date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    </div>
+
+    <div>
+        <label for="rupiah" class="block text-sm font-medium mb-1">Rupiah</label>
+        <input
+        type="text"
+        name="rupiah"
+        id="rupiah"
+        [value]="formatNumber(lainKeluar.rupiah!)"
+        (input)="onFormattedNumberInput($event, 'rupiah')"
+        required
+        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </div>
+
+    <div>
+        <label for="description" class="block text-sm font-medium mb-1">Description</label>
+        <input type="text" name="description" id="description" [(ngModel)]="lainKeluar.description" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+    </div>
+
+    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors">Add Lain Keluar</button>
+
+</form>

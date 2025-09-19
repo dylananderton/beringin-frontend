@@ -1,0 +1,118 @@
+<h2 class="text-2xl font-bold text-center my-6">Add Transaction</h2>
+
+<form (ngSubmit)="submitForm()" #form="ngForm" class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md space-y-6">
+    <div>
+        <label for="currency" class="block text-sm font-medium mb-1">Currency</label>
+        <select name="currencyCode" id="currency" [(ngModel)]="transaction.currency_code" (ngModelChange)="getCurrencyBatches()" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option *ngFor="let currency of currencies;" [value]="currency.code">
+                {{currency.code}} - {{currency.name}}
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="type" class="block text-sm font-medium mb-1">Type:</label>
+        <select name="type" id="type" [(ngModel)]="transaction.type" (ngModelChange)="getCurrencyBatches()" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="buy">Buy</option>
+            <option value="sell">Sell</option>
+            <option value="buy_and_sell">Buy and Sell</option>
+        </select>
+    </div>
+
+    <div *ngIf="transaction.type === 'buy' || transaction.type === 'buy_and_sell'" class="space-y-4">
+        <div>
+            <label for="sell_amount" class="block text-sm font-medium mb-1">Buy Amount</label>
+            <input
+            type="text"
+            name="buy_amount"
+            id="buy_amount"
+            [value]="formatNumber(transaction.buyAmount!)"
+            (input)="onFormattedNumberInput($event, 'buyAmount')"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            <label for="buy_rate" class="block text-sm font-medium mb-1">Buy Rate</label>
+            <input
+            type="text"
+            name="buy_rate"
+            id="buy_rate"
+            [value]="formatNumber(transaction.buyRate!)"
+            (input)="onFormattedNumberInput($event, 'buyRate')"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div *ngIf="transaction.type === 'buy_and_sell'">
+            <label for="buy_fee" class="block text-sm font-medium mb-1">Buy Fee</label>
+            <input
+            type="text"
+            name="buy_fee"
+            id="buy_fee"
+            [value]="formatNumber(transaction.buyFee!)"
+            (input)="onFormattedNumberInput($event, 'buyFee')"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            <label for="buy_notes" class="block text-sm font-medium mb-1">Buy Notes</label>
+            <input type="text" name="buy_notes" id="buy_notes" [(ngModel)]="transaction.buyNote" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+    </div>
+
+    <div *ngIf="transaction.type === 'sell' || transaction.type === 'buy_and_sell'" class="space-y-4">
+        <div>
+            <label for="sell_amount" class="block text-sm font-medium mb-1">Sell Amount</label>
+            <input
+            type="text"
+            name="sell_amount"
+            id="sell_amount"
+            [value]="formatNumber(transaction.sellAmount!)"
+            (input)="onFormattedNumberInput($event, 'sellAmount')"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            <label for="sell_rate" class="block text-sm font-medium mb-1">Sell Rate</label>
+            <input
+            type="text"
+            name="sell_rate"
+            id="sell_rate"
+            [value]="formatNumber(transaction.sellRate!)"
+            (input)="onFormattedNumberInput($event, 'sellRate')"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            <label for="sell_fee" class="block text-sm font-medium mb-1">Sell Fee</label>
+            <input
+            type="text"
+            name="sell_fee"
+            id="sell_fee"
+            [value]="formatNumber(transaction.sellFee!)"
+            (input)="onFormattedNumberInput($event, 'sellFee')"
+            required
+            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+            <label for="sell_notes" class="block text-sm font-medium mb-1">Sell Notes</label>
+            <input type="text" name="sell_notes" id="sell_notes" [(ngModel)]="transaction.sellNote" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+    </div>
+
+    <div *ngIf="transaction.type === 'sell'" class="space-y-4">
+        <label for="currency" class="block text-sm font-medium mb-1">Batch to use</label>
+        <select name="currencyCode" id="currency" [(ngModel)]="transaction.usedBatch" required class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option *ngFor="let batch of currencyBatches" [value]="batch.batch_code">
+                {{batch.batch_code}} - remaining: {{batch.amount_remaining | number:'1.0-0' }} - buy rate: {{batch.buy_rate | number:'2.0-0'}}
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="date" class="block text-sm font-medium mb-1">Date</label>
+        <input type="date" name="date" id="date" [(ngModel)]="transaction.date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </div>
+
+    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors">Add Transaction</button>
+
+</form>
